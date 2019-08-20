@@ -13,5 +13,21 @@ class KaddlAbend:
             sort_keys=True, indent=4)
 
 x = KaddlAbend("Nusse", "Reissy", "Flo", datetime.date.today(), 3.50)
-print(x.toJSON())
-print(x.datum)
+y = KaddlAbend("Maxi", "Reissy", "Nusse", datetime.date(2019, 5, 20), 2)
+z = KaddlAbend("Flo", "Werner", "Maxi", datetime.date(2018, 8, 1), -1.50)
+example_data = [x, y, z]
+
+alleSpiele = {}
+alleSpiele['Schafkopfabende'] = []
+
+for bsp in example_data:
+    alleSpiele['Schafkopfabende'].append({
+        'datum': str(bsp.datum),
+        'bilanz': str(bsp.bilanz),
+        'mitspieler1': bsp.spieler1,
+        'mitspieler2': bsp.spieler2,
+        'mitspieler3': bsp.spieler3
+    })
+
+with open('db.json', 'w') as outfile:
+    json.dump(alleSpiele, outfile)
