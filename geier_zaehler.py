@@ -1,5 +1,6 @@
-import json
 import datetime
+import json
+
 
 ########## CONSTANTS
 DB_FILE_PATH = 'db.json'
@@ -35,6 +36,16 @@ def produce_sample_data():
         })
     return alleSpiele
 
+def add_abend(dataSet, bil, dat, spieler):
+    newAbend = KaddlAbend(spieler[0], spieler[1], spieler[2], dat, bil)
+    dataSet['Schafkopfabende'].append({
+        'datum': str(newAbend.datum),
+        'bilanz': str(newAbend.bilanz),
+        'mitspieler1': newAbend.spieler1,
+        'mitspieler2': newAbend.spieler2,
+        'mitspieler3': newAbend.spieler3
+    })
+
 def save_profile(dataSet, filename):
     with open(filename, 'w') as outfile:
         json.dump(dataSet, outfile)
@@ -45,8 +56,11 @@ def load_profile(filename):
     return dataSet
 
 ########## MAIN
-#demoList = produce_sample_data()
-#save_profile(demoList, DB_FILE_PATH)
+demoList = produce_sample_data()
+spielerListe = "Bernd", "Rüdiger", "Jack"
+d = datetime.date(2017, 5, 20)
+add_abend(demoList, -5, d, spielerListe)
+save_profile(demoList, DB_FILE_PATH)
 #demoList = load_profile(DB_FILE_PATH)
-#for abend in demoList['Schafkopfabende']:
-#    print(abend['datum'])
+for abend in demoList['Schafkopfabende']:
+    print(abend['datum'])
