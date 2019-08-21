@@ -1,6 +1,7 @@
 import datetime
 import json
 from tkinter import *
+from tkinter.ttk import *
 
 ########## CONSTANTS AND GLOBALS
 DB_FILE_PATH = 'db.json'
@@ -100,6 +101,8 @@ def col_spieler_button_pushed():
     global datenSatz, spielerListe
     collect_all_Spieler(datenSatz)
     lbl.configure(text=str(spielerListe))
+    combo['values']= (spielerListe)
+    combo.current(1) #set the selected item
 
 
 ########## Construct Window
@@ -108,6 +111,8 @@ window.title("Geier Zähler")
 window.geometry('700x400')
 lbl = Label(window, text="Platzhalter")
 lbl.grid(column=0, row=0)
+combo = Combobox(window)
+combo.grid(column=1, row=0)
 btn_demo = Button(window, text="Erzeuge Beispiel Daten", command=demo_button_pushed)
 btn_demo.grid(column=0, row=1)
 btn_save = Button(window, text="Speicher Daten", command=save_button_pushed)
