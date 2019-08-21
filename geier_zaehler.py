@@ -1,6 +1,10 @@
 import json
 import datetime
 
+########## CONSTANTS
+DB_FILE_PATH = 'db.json'
+
+########## Classes
 class KaddlAbend:
     def __init__(self, mitspieler1, mitspieler2, mitspieler3, datum, bilanz):
         self.spieler1 = mitspieler1
@@ -12,22 +16,37 @@ class KaddlAbend:
         return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
 
-x = KaddlAbend("Nusse", "Reissy", "Flo", datetime.date.today(), 3.50)
-y = KaddlAbend("Maxi", "Reissy", "Nusse", datetime.date(2019, 5, 20), 2)
-z = KaddlAbend("Flo", "Werner", "Maxi", datetime.date(2018, 8, 1), -1.50)
-example_data = [x, y, z]
+########## FUNCTIONS
+def produce_sample_data():
+    x = KaddlAbend("Werner", "Schosch", "Jürgen", datetime.date.today(), 3.50)
+    y = KaddlAbend("Schosch", "Heinz", "Günther", datetime.date(2019, 5, 20), 2)
+    z = KaddlAbend("Bernhard", "Werner", "Hubert", datetime.date(2018, 8, 1), -1.50)
+    example_data = [x, y, z]
+    alleSpiele = {}
+    alleSpiele['Schafkopfabende'] = []
 
-alleSpiele = {}
-alleSpiele['Schafkopfabende'] = []
+    for bsp in example_data:
+        alleSpiele['Schafkopfabende'].append({
+            'datum': str(bsp.datum),
+            'bilanz': str(bsp.bilanz),
+            'mitspieler1': bsp.spieler1,
+            'mitspieler2': bsp.spieler2,
+            'mitspieler3': bsp.spieler3
+        })
+    return alleSpiele
 
-for bsp in example_data:
-    alleSpiele['Schafkopfabende'].append({
-        'datum': str(bsp.datum),
-        'bilanz': str(bsp.bilanz),
-        'mitspieler1': bsp.spieler1,
-        'mitspieler2': bsp.spieler2,
-        'mitspieler3': bsp.spieler3
-    })
+def save_profile(dataSet, filename):
+    with open(filename, 'w') as outfile:
+        json.dump(dataSet, outfile)
 
-with open('db.json', 'w') as outfile:
-    json.dump(alleSpiele, outfile)
+def load_profile(filename):
+    with open(filename, 'r') as infile:
+        dataSet = json.load(infile)
+    return dataSet
+
+########## MAIN
+#demoList = produce_sample_data()
+#save_profile(demoList, DB_FILE_PATH)
+#demoList = load_profile(DB_FILE_PATH)
+#for abend in demoList['Schafkopfabende']:
+#    print(abend['datum'])
