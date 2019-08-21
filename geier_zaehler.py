@@ -1,9 +1,12 @@
 import datetime
 import json
+from tkinter import *
 
-
-########## CONSTANTS
+########## CONSTANTS AND GLOBALS
 DB_FILE_PATH = 'db.json'
+global datenSatz, spielerListe
+datenSatz = {}
+spielerListe = []
 
 ########## Classes
 class KaddlAbend:
@@ -36,6 +39,17 @@ def produce_sample_data():
         })
     return alleSpiele
 
+def collect_all_Spieler(dataSet):
+    global spielerListe
+    for abend in dataSet['Schafkopfabende']:
+        if abend['mitspieler1'] not in spielerListe:
+            spielerListe.append(abend['mitspieler1'])
+        if abend['mitspieler2'] not in spielerListe:
+            spielerListe.append(abend['mitspieler2'])
+        if abend['mitspieler3'] not in spielerListe:
+            spielerListe.append(abend['mitspieler3'])
+
+
 def add_abend(dataSet, bil, dat, spieler):
     newAbend = KaddlAbend(spieler[0], spieler[1], spieler[2], dat, bil)
     dataSet['Schafkopfabende'].append({
@@ -56,11 +70,50 @@ def load_profile(filename):
     return dataSet
 
 ########## MAIN
-demoList = produce_sample_data()
-spielerListe = "Bernd", "Rüdiger", "Jack"
-d = datetime.date(2017, 5, 20)
-add_abend(demoList, -5, d, spielerListe)
-save_profile(demoList, DB_FILE_PATH)
+#demoList = produce_sample_data()
+#spielerListe = "Bernd", "Rüdiger", "Jack"
+#d = datetime.date(2017, 5, 20)
+#add_abend(demoList, -5, d, spielerListe)
+#save_profile(demoList, DB_FILE_PATH)
 #demoList = load_profile(DB_FILE_PATH)
-for abend in demoList['Schafkopfabende']:
-    print(abend['datum'])
+#for abend in demoList['Schafkopfabende']:
+#    print(abend['datum'])
+
+
+
+########## Button Handler
+def demo_button_pushed():
+    global datenSatz
+    datenSatz = produce_sample_data()
+    lbl.configure(text="Anzahl an Datensätzen: " + str(len(datenSatz['Schafkopfabende'])))
+
+def save_button_pushed():
+    global datenSatz
+    save_profile(datenSatz, DB_FILE_PATH)
+
+def load_button_pushed():
+    global datenSatz
+    datenSatz = load_profile( DB_FILE_PATH)
+    lbl.configure(text="Anzahl an Datensätzen: " + str(len(datenSatz['Schafkopfabende'])))
+
+def col_spieler_button_pushed():
+    global datenSatz, spielerListe
+    collect_all_Spieler(datenSatz)
+    lbl.configure(text=str(spielerListe))
+
+
+########## Construct Window
+window = Tk()
+window.title("Geier Zähler")
+window.geometry('700x400')
+lbl = Label(window, text="Platzhalter")
+lbl.grid(column=0, row=0)
+btn_demo = Button(window, text="Erzeuge Beispiel Daten", command=demo_button_pushed)
+btn_demo.grid(column=0, row=1)
+btn_save = Button(window, text="Speicher Daten", command=save_button_pushed)
+btn_save.grid(column=0, row=2)
+btn_load = Button(window, text="Lade Daten", command=load_button_pushed)
+btn_load.grid(column=0, row=3)
+btn_col_spieler = Button(window, text="Lade Spieler", command=col_spieler_button_pushed)
+btn_col_spieler.grid(column=0, row=4)
+window.mainloop()
