@@ -50,6 +50,9 @@ def collect_all_Spieler(dataSet):
         if abend['mitspieler3'] not in spielerListe:
             spielerListe.append(abend['mitspieler3'])
 
+def add_spieler(s):
+    global spielerListe
+    spielerListe.append(s)
 
 def add_abend(dataSet, bil, dat, spieler):
     newAbend = KaddlAbend(spieler[0], spieler[1], spieler[2], dat, bil)
@@ -96,6 +99,7 @@ def load_button_pushed():
     global datenSatz
     datenSatz = load_profile( DB_FILE_PATH)
     lbl.configure(text="Anzahl an Datensätzen: " + str(len(datenSatz['Schafkopfabende'])))
+
 
 def col_spieler_button_pushed():
     global datenSatz, spielerListe
