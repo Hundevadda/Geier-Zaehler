@@ -23,8 +23,8 @@ class KaddlAbend:
 
 ########## FUNCTIONS
 def produce_sample_data():
-    x = KaddlAbend("Werner", "Schosch", "Jürgen", datetime.date.today(), 3.50)
-    y = KaddlAbend("Schosch", "Heinz", "Günther", datetime.date(2019, 5, 20), 2)
+    x = KaddlAbend("Werner", "Schosch", "Juergen", datetime.date.today(), 3.50)
+    y = KaddlAbend("Schosch", "Heinz", "Guenther", datetime.date(2019, 5, 20), 2)
     z = KaddlAbend("Bernhard", "Werner", "Hubert", datetime.date(2018, 8, 1), -1.50)
     example_data = [x, y, z]
     alleSpiele = {}
@@ -75,7 +75,7 @@ def load_profile(filename):
 
 ########## MAIN
 #demoList = produce_sample_data()
-#spielerListe = "Bernd", "Rüdiger", "Jack"
+#spielerListe = "Bernd", "Ruediger", "Jack"
 #d = datetime.date(2017, 5, 20)
 #add_abend(demoList, -5, d, spielerListe)
 #save_profile(demoList, DB_FILE_PATH)
@@ -89,7 +89,7 @@ def load_profile(filename):
 def demo_button_pushed():
     global datenSatz
     datenSatz = produce_sample_data()
-    lbl.configure(text="Anzahl an Datensätzen: " + str(len(datenSatz['Schafkopfabende'])))
+    lbl.configure(text="Anzahl an Datensaetzen: " + str(len(datenSatz['Schafkopfabende'])))
 
 def save_button_pushed():
     global datenSatz
@@ -98,7 +98,7 @@ def save_button_pushed():
 def load_button_pushed():
     global datenSatz
     datenSatz = load_profile( DB_FILE_PATH)
-    lbl.configure(text="Anzahl an Datensätzen: " + str(len(datenSatz['Schafkopfabende'])))
+    lbl.configure(text="Anzahl an Datensaetzen: " + str(len(datenSatz['Schafkopfabende'])))
 
 
 def col_spieler_button_pushed():
@@ -111,7 +111,7 @@ def col_spieler_button_pushed():
 
 ########## Construct Window
 window = Tk()
-window.title("Geier Zähler")
+window.title("Geier Zaehler")
 window.geometry('700x400')
 lbl = Label(window, text="Platzhalter")
 lbl.grid(column=0, row=0)
